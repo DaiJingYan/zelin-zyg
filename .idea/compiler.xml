@@ -7,16 +7,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="zyg-common" />
+        <module name="renren-fast-manager" />
         <module name="mybatisplus-demo" />
+        <module name="zyg-manager" />
+        <module name="renren-generator" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8">
-      <module name="mybatisplus-demo" target="1.8" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="8" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="mybatisplus-demo" options="-parameters" />
+      <module name="renren-fast-manager" options="-parameters" />
+      <module name="renren-generator" options="-parameters" />
+      <module name="zyg-common" options="-parameters" />
+      <module name="zyg-manager" options="-parameters" />
     </option>
   </component>
 </project>

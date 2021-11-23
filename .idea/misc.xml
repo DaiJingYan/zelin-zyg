@@ -10,6 +10,9 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/mybatisplus-demo2/pom.xml" />
         <option value="$PROJECT_DIR$/mybatisplus-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/renren-fast/pom.xml" />
+        <option value="$PROJECT_DIR$/renren-generator/pom.xml" />
+        <option value="$PROJECT_DIR$/renren-fast-manager/pom.xml" />
       </list>
     </option>
   </component>
