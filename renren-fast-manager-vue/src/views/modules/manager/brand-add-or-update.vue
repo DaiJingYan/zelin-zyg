@@ -3,7 +3,7 @@
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible">
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
     <el-form-item label="品牌名称" prop="name">
       <el-input v-model="dataForm.name" placeholder="品牌名称"></el-input>
     </el-form-item>
@@ -64,7 +64,7 @@
           if (valid) {
             this.$http({
               url: this.$http.adornUrl(`/manager/brand/${!this.dataForm.id ? 'save' : 'update'}`),
-              method: 'post',
+              method: `${this.dataForm.id ? 'put' : 'post'}`,
               data: this.$http.adornData({
                 'id': this.dataForm.id || undefined,
                 'name': this.dataForm.name,

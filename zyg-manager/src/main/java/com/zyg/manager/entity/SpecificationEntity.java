@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 /**
  * 
  * 
@@ -23,6 +26,7 @@ public class SpecificationEntity implements Serializable {
 	 * 主键
 	 */
 	@TableId
+	@GeneratedValue(strategy= GenerationType.IDENTITY)			//添加此注解后会得到添加后的规格id，但前台传入id时不能给值（比如：0）
 	private String id;
 	/**
 	 * 名称

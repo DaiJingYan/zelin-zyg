@@ -3,10 +3,44 @@
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible">
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    {{dataForm}}--
+    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
     <el-form-item label="名称" prop="specName">
-      <el-input v-model="dataForm.specName" placeholder="名称"></el-input>
+      <el-input v-model="dataForm.spec.specName" placeholder="名称"></el-input>
     </el-form-item>
+      <el-button type="primary" plain size="small" @click="dataForm.options.push({})">新增规格选项</el-button>
+      <el-table
+        :data="dataForm.options"
+        style="width: 100%;">
+        <el-table-column
+          prop="id"
+          header-align="center"
+          align="center"
+          label="规格选项">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.optionName"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="specName"
+          header-align="center"
+          align="center"
+          label="排序">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.orders"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          header-align="center"
+          align="center"
+          width="150"
+          label="操作">
+          <template slot-scope="scope">
+            <el-button type="danger" size="small" @click="dataForm.options.splice(scope.index,1)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
@@ -21,19 +55,24 @@
       return {
         visible: false,
         dataForm: {
-          id: 0,
-          specName: ''
+          spec:{       // 代表规格对象
+            specName: '',
+          },
+          options:[]  // 代表规格下的规格选项集合
         },
         dataRule: {
-          specName: [
-            { required: true, message: '名称不能为空', trigger: 'blur' }
-          ]
+          spec:{
+            specName: [
+              { required: true, message: '名称不能为空', trigger: 'blur' }
+            ]
+          }
+
         }
       }
     },
     methods: {
-      init (id) {
-        this.dataForm.id = id || 0
+      init (id=0) {
+        this.dataForm.id = id
         this.visible = true
         this.$nextTick(() => {
           this.$refs['dataForm'].resetFields()
@@ -44,7 +83,9 @@
               params: this.$http.adornParams()
             }).then(({data}) => {
               if (data && data.code === 0) {
-                this.dataForm.specName = data.specification.specName
+                //查询成功后，为规格及规格选项赋值
+                this.dataForm.spec = data.specification.spec;       //为规格赋值
+                this.dataForm.options = data.specification.options; //为规格选项赋值
               }
             })
           }
@@ -52,15 +93,18 @@
       },
       // 表单提交
       dataFormSubmit () {
+        let data = this.$http.adornData({
+          'id': this.dataForm.id || undefined,
+          'spec': this.dataForm.spec,
+          'options':this.dataForm.options
+        })
+        console.log("data:",data);
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
               url: this.$http.adornUrl(`/manager/specification/${!this.dataForm.id ? 'save' : 'update'}`),
-              method: 'post',
-              data: this.$http.adornData({
-                'id': this.dataForm.id || undefined,
-                'specName': this.dataForm.specName
-              })
+              method: `${this.dataForm.id ? 'put' : 'post'}`,
+              data
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.$message({

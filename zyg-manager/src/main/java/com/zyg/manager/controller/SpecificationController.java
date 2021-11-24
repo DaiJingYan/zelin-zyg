@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.zyg.manager.entity.vo.Specification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +46,7 @@ public class SpecificationController {
     @GetMapping("/info/{id}")
     //@RequiresPermissions("manager:specification:info")
     public R info(@PathVariable("id") String id){
-		SpecificationEntity specification = specificationService.getById(id);
+		Specification specification = specificationService.findById(id);
 
         return R.ok().put("specification", specification);
     }
@@ -55,7 +56,8 @@ public class SpecificationController {
      */
     @PostMapping("/save")
     //@RequiresPermissions("manager:specification:save")
-    public R save(@RequestBody SpecificationEntity specification){
+    public R save(@RequestBody Specification specification){
+        System.out.println("specification = " + specification);
 		specificationService.save(specification);
 
         return R.ok();
@@ -65,9 +67,8 @@ public class SpecificationController {
      * 修改
      */
     @PutMapping("/update")
-    //@RequiresPermissions("manager:specification:update")
-    public R update(@RequestBody SpecificationEntity specification){
-		specificationService.updateById(specification);
+    public R update(@RequestBody Specification specification){
+		specificationService.update(specification);
 
         return R.ok();
     }
@@ -78,7 +79,7 @@ public class SpecificationController {
     @DeleteMapping("/delete")
     //@RequiresPermissions("manager:specification:delete")
     public R delete(@RequestBody String[] ids){
-		specificationService.removeByIds(Arrays.asList(ids));
+		specificationService.delete(Arrays.asList(ids));
 
         return R.ok();
     }

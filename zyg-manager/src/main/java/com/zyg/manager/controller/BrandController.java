@@ -42,7 +42,6 @@ public class BrandController {
      * 信息
      */
     @GetMapping("/info/{id}")
-    //@RequiresPermissions("manager:brand:info")
     public R info(@PathVariable("id") String id){
 		BrandEntity brand = brandService.getById(id);
 
@@ -53,7 +52,6 @@ public class BrandController {
      * 保存
      */
     @PostMapping("/save")
-    //@RequiresPermissions("manager:brand:save")
     public R save(@RequestBody BrandEntity brand){
 		brandService.save(brand);
 
