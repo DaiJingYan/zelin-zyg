@@ -37,7 +37,11 @@ public class BrandController {
         return R.ok().put("page", page);
     }
 
-
+    //2. 查询品牌
+    @GetMapping("/findAll")
+    public R findAll(){
+        return R.ok().put("list",brandService.list());
+    }
     /**
      * 信息
      */

@@ -39,18 +39,36 @@
         header-align="center"
         align="center"
         label="关联规格">
+        <template slot-scope="scope">
+          <span v-for="(spec,index) in JSON.parse(scope.row.specIds)" v-if="index != JSON.parse(scope.row.specIds).length-1">
+            {{spec.text}},
+          </span>
+          <span v-for="(spec,index) in JSON.parse(scope.row.specIds)" v-if="index == JSON.parse(scope.row.specIds).length-1">
+             {{spec.text}}
+          </span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="brandIds"
         header-align="center"
         align="center"
         label="关联品牌">
+        <template slot-scope="scope">
+          <span v-for="brand in JSON.parse(scope.row.brandIds)" >
+            {{brand.text}},
+          </span>
+        </template>
       </el-table-column>
       <el-table-column
         prop="customAttributeItems"
         header-align="center"
         align="center"
         label="自定义属性">
+        <template slot-scope="scope">
+          <span v-for="attr in JSON.parse(scope.row.customAttributeItems)" >
+            {{attr.text}},
+          </span>
+        </template>
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -158,7 +176,7 @@
         }).then(() => {
           this.$http({
             url: this.$http.adornUrl('/manager/typetemplate/delete'),
-            method: 'post',
+            method: 'delete',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {
             if (data && data.code === 0) {
