@@ -9,8 +9,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="zyg-common" />
         <module name="renren-generator" />
-        <module name="mybatisplus-demo" />
         <module name="renren-fast-shop" />
+        <module name="mybatisplus-demo" />
         <module name="renren-fast-manager" />
         <module name="zyg-shop" />
         <module name="zyg-manager" />
