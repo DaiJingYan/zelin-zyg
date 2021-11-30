@@ -78,7 +78,6 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="扩展属性">
-        {{goodsForm.goodsDesc.customAttributeItems}}--
         <el-table
           :data="goodsForm.goodsDesc.customAttributeItems"
           style="width: 100%;">
@@ -99,7 +98,6 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="规格">
-        {{optionList}}-----
         <el-table
           :data="specGroup"
           style="width: 100%;">
@@ -115,12 +113,36 @@
             header-align="center"
             align="left">
             <template slot-scope="scope">
-              <el-checkbox-group size="small"  v-model="optionList[scope.$index]">
+              <el-checkbox-group size="small"  v-model="optionList[scope.$index]" @change="getSpecItems">
                 <el-checkbox :label="option.optionName" border  v-for="option in scope.row.options" :key="option.id"></el-checkbox>
               </el-checkbox-group>
             </template>
           </el-table-column>
 
+        </el-table>
+        <el-table
+          :data="goodsForm.items"
+          style="width: 100%;">
+          <el-table-column width="200px" align="center"
+                           :key="key" :label="spec.attributeName"
+                           v-for="(spec,key) in goodsForm.goodsDesc.specificationItems">
+            <template slot-scope="scope">
+              {{scope.row.spec[spec.attributeName]}}
+            </template>
+          </el-table-column>
+
+          <!--2.2 处理价格-->
+          <el-table-column  label="价格"  align="center" >
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.price"/>
+            </template>
+          </el-table-column>
+          <!--2.3 处理数量-->
+          <el-table-column  label="库存"  align="center" >
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.num"/>
+            </template>
+          </el-table-column>
         </el-table>
       </el-tab-pane>
 
@@ -129,7 +151,7 @@
       <el-button>返回列表</el-button>
       </div>
     </el-tabs>
-    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+    <el-dialog title="上传图片" :visible.sync="dialogFormVisible">
       <el-form :model="imageEntity">
         <el-form-item label="颜色" label-width="100px">
           <el-input v-model="imageEntity.color" autocomplete="off"></el-input>
@@ -164,7 +186,7 @@
       return {
         goodsForm:{
           goods:{typeTemplateId:''},
-          goodsDesc:{itemImages:[],customAttributeItems:[]},
+          goodsDesc:{itemImages:[],customAttributeItems:[],specificationItems:[]},
           items:[],
 
         },
@@ -217,7 +239,6 @@
           method: 'get',
         }).then(({data}) => {
           if(data.code == 0){
-
             this.goodsForm.goods.typeTemplateId = data.itemCat.typeId;
           }
         })
@@ -230,7 +251,7 @@
           method: 'get',
         }).then(({data}) => {
           if(data.code == 0){
-            console.log("data:",data)
+            // console.log("data:",data)
             //① 得到模板的品牌列表
             this.brandList = JSON.parse(data.typeTemplate.brandIds);
             //② 得到模板的扩展属性列表
@@ -278,8 +299,33 @@
             this.categorys1 = data.categorys1;
         })
       },
+      //保存商品
       save(){
-
+          //1. 处理前端的json对象为字符串，因为后台都是字符串
+          this.goodsForm.goodsDesc.specificationItems = JSON.stringify(this.goodsForm.goodsDesc.specificationItems)
+          this.goodsForm.goodsDesc.itemImages = JSON.stringify(this.goodsForm.goodsDesc.itemImages)
+          this.goodsForm.goodsDesc.customAttributeItems = JSON.stringify(this.goodsForm.goodsDesc.customAttributeItems)
+          this.goodsForm.items.forEach(item=>{
+            item.spec = JSON.stringify(item.spec);
+          })
+          //2. 向后台发送请求
+          this.$http({
+            url: this.$http.adornUrl('/shop/goods/save'),
+            method: 'post',
+            data:this.goodsForm
+          }).then(({data}) => {
+            if(data.code == 0){
+              this.goodsForm={
+                goods:{typeTemplateId:''},
+                goodsDesc:{itemImages:[],customAttributeItems:[],specificationItems:[]},
+                items:[],
+              }
+              this.fileList = []
+              this.optionList=[];   //选择的规格选项列表
+              this.specGroup=[]
+              this.imageEntity = {}
+            }
+          })
       },
       //进行文件上传
       uploadFile(val){
@@ -308,7 +354,59 @@
       saveImage(){
         this.goodsForm.goodsDesc.itemImages.push(this.imageEntity);
         this.dialogFormVisible=false
-      }
+      },
+      //点击规格选项时的事件处理
+      getSpecItems(){
+        console.log("optionList:",this.optionList);  //this.optionList：放的是选中的规格选项的值
+        //0. 每次要设置为默认值
+        this.goodsForm.goodsDesc.specificationItems = [];
+        //1. 遍历optionList，在其中遍历this.specGroup,为this.goodsForm.goodsDesc.specificationItems赋值
+        for (let i = 0; i < this.optionList.length; i++) {
+          //1.1 得到对应规格的名称
+          let specName = this.specGroup[i].text;
+          //1.2 为this.goodsForm.goodsDesc.specificationItems赋值
+          this.goodsForm.goodsDesc.specificationItems.push({"attributeName":specName,"attributeValue":this.optionList[i]})
+        }
+        //2. 【方法一】进行兼容性处理，如果attributeValue这个数组没有值，就将这个对象从this.goodsForm.goodsDesc.specificationItems数组中删除
+        // for (let i = 0; i < this.optionList.length; i++) {
+        //   let  len = this.goodsForm.goodsDesc.specificationItems[i].attributeValue.length;
+        //   if(len == 0){
+        //     this.goodsForm.goodsDesc.specificationItems.splice(i,1);
+        //     break;
+        //   }
+        // }
+        //3. 【方法二】采用过滤器处理，只显示attributeValue.length > 0
+        this.goodsForm.goodsDesc.specificationItems = this.goodsForm.goodsDesc.specificationItems.filter(f=>f.attributeValue.length > 0);
+
+        //4. 为goodsForm.items（sku商品列表）赋值
+        this.createItems();
+      },
+      createItems(){
+        //1. 定义sku商品列表的初始值
+        this.goodsForm.items = [{spec:{},price:0,num:9999,status:'0',isDefault:'0'}];
+        //2. 得到用户点击的规格及选项的值
+        let items = this.goodsForm.goodsDesc.specificationItems;
+        //3. 遍历上面的items将用户勾选的规格及选项的值赋值给sku列表
+        items.forEach(item=>{
+          this.goodsForm.items = this.createColumn(this.goodsForm.items,item.attributeName,item.attributeValue);
+        })
+      },
+      createColumn(items,specName,specValue){
+        //1. 定义存放返回结果的数组
+        let skuList = [];
+        //2. 遍历items数组
+        items.forEach(item=>{
+          specValue.forEach(val=>{
+            //2.1 根据原来的数据深克隆出新行数据
+            let row = JSON.parse(JSON.stringify(item));
+            //2.2 为新行的spec对象赋值
+            row.spec[specName] = val
+            //2.3 添加此新行到返回的新数组中
+            skuList.push(row);
+          })
+        })
+        return skuList;
+      },
     }
   }
 </script>
