@@ -19,5 +19,9 @@ public interface GoodsService extends IService<GoodsEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     void save(Goods goods);
+
+    Goods findById(String id);
+
+    void update(Goods goods);
 }
 

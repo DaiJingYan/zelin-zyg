@@ -1,6 +1,7 @@
 package com.zyg.shop.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.zyg.shop.entity.GoodsDescEntity;
 import com.zyg.shop.entity.ItemEntity;
 import com.zyg.shop.entity.group.Goods;
 import com.zyg.shop.service.*;
@@ -61,6 +62,27 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, GoodsEntity> impleme
 
 
     }
+
+    //2. 根据id查询商品
+    @Override
+    public Goods findById(String id) {
+        //2.1 根据商品id查询商品
+        GoodsEntity goodsEntity = this.getById(id);
+        //2.2 根据商品id查询商品描述对象
+        GoodsDescEntity goodsDescEntity = goodsDescService.getById(id);
+        //2.3 根据外键查询
+        List<ItemEntity> itemEntities = itemService.list(new QueryWrapper<ItemEntity>().eq("goods_id", id));
+        //2.4 构造组合对象
+        Goods goods = new Goods();
+        goods.setGoods(goodsEntity);
+        goods.setGoodsDesc(goodsDescEntity);
+        goods.setItems(itemEntities);
+        //2.5 返回
+        return goods;
+    }
+
+
+
     //2. 保存sku商品列表
     private void saveItem(Goods goods) {
         List<ItemEntity> items = goods.getItems();
@@ -96,4 +118,24 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, GoodsEntity> impleme
         }
     }
 
+    //3. 修改商品
+    @Override
+    @Transactional
+    public void update(Goods goods) {
+        //3.1 修改商品表
+        this.updateById(goods.getGoods());
+
+        //3.2 修改商品描述表
+        //3.2.1 设置外键关系
+        goods.getGoodsDesc().setGoodsId(goods.getGoods().getId());
+        //3.2.2 修改商品描述表
+        goodsDescService.updateById(goods.getGoodsDesc());
+
+        //3.3 修改sku商品列表
+        //3.3.1 根据goodsid删除sku列表
+        itemService.remove(new QueryWrapper<ItemEntity>().eq("goods_id",goods.getGoods().getId()));
+        //3.3.2 再添加商品列表
+        saveItem(goods);
+
+    }
 }

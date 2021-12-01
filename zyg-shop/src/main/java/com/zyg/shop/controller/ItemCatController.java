@@ -40,7 +40,7 @@ public class ItemCatController {
 
         return R.ok().put("page", page);
     }
-    //查询所有分类
+    //查询所有分类(一级分类)
     @GetMapping("findAll")
     public R findAll(){
         List<ItemCatEntity> collect = itemCatService.list()
@@ -49,12 +49,17 @@ public class ItemCatController {
                                                     .collect(Collectors.toList());
         return R.ok().put("categorys1",collect);
     }
+    @GetMapping("findItemCats")
+    public R findAll2(){
+        return R.ok().put("itemCatList",itemCatService.list());
+    }
     //根据父id查询此分类下的所有子分类列表
     @GetMapping("findByParentId/{itemCatId}")
     public R findByParentId(@PathVariable String itemCatId){
         List<ItemCatEntity> itemCatEntities = itemCatService.findByParentId(itemCatId);
         return R.ok().put("list",itemCatEntities);
     }
+
     /**
      * 信息
      */

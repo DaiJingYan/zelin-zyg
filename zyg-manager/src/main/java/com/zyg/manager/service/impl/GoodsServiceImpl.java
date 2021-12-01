@@ -20,10 +20,21 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, GoodsEntity> impleme
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<GoodsEntity> page = this.page(
                 new Query<GoodsEntity>().getPage(params),
-                new QueryWrapper<GoodsEntity>()
+                new QueryWrapper<GoodsEntity>().eq("audit_status","0")
         );
 
         return new PageUtils(page);
+    }
+
+    //2. 进行商品审核
+    @Override
+    public void updateStatus(String status, String[] ids) {
+        //2.1 根据id查询商品，再修改此商品的状态值
+        for (String id : ids) {
+            GoodsEntity goodsEntity = this.getById(id);
+            goodsEntity.setAuditStatus(status);
+            this.updateById(goodsEntity);
+        }
     }
 
 }

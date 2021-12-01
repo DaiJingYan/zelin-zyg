@@ -38,7 +38,12 @@ public class GoodsController {
 
         return R.ok().put("page", page);
     }
-
+    //根据商品id查询商品
+    @GetMapping("/findById/{id}")
+    public R findById(@PathVariable String id){
+        Goods goods = goodsService.findById(id);
+        return R.ok().put("goods",goods);
+    }
 
     /**
      * 信息
@@ -67,8 +72,8 @@ public class GoodsController {
      */
     @PutMapping("/update")
     //@RequiresPermissions("shop:goods:update")
-    public R update(@RequestBody GoodsEntity goods){
-		goodsService.updateById(goods);
+    public R update(@RequestBody Goods goods){
+		goodsService.update(goods);
 
         return R.ok();
     }

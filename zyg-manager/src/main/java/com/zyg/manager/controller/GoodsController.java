@@ -38,7 +38,12 @@ public class GoodsController {
         return R.ok().put("page", page);
     }
 
-
+    //商品审核
+    @PostMapping("updateStatus/{status}/{ids}")
+    public R updateStatus(@PathVariable String status,@PathVariable String[] ids){
+        goodsService.updateStatus(status,ids);
+        return R.ok();
+    }
     /**
      * 信息
      */

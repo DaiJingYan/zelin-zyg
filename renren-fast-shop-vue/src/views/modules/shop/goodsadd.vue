@@ -113,8 +113,11 @@
             header-align="center"
             align="left">
             <template slot-scope="scope">
-              <el-checkbox-group size="small"  v-model="optionList[scope.$index]" @change="getSpecItems">
-                <el-checkbox :label="option.optionName" border  v-for="option in scope.row.options" :key="option.id"></el-checkbox>
+              <!--<el-checkbox-group size="mini"  v-model="optionList[scope.$index]">-->
+              <!--  <el-checkbox :label="option.optionName" border v-for="option in scope.row.options" :key="option.id" @change="getSpecItems"></el-checkbox>-->
+              <!--</el-checkbox-group>-->
+              <el-checkbox-group v-model="optionList[scope.$index]" size="mini" >
+                <el-checkbox :label="option.optionName" border v-for="option in scope.row.options" :key="option.id" @change="getSpecItems"></el-checkbox>
               </el-checkbox-group>
             </template>
           </el-table-column>
@@ -185,7 +188,7 @@
     data () {
       return {
         goodsForm:{
-          goods:{typeTemplateId:''},
+          goods:{typeTemplateId:'',brandId:''},
           goodsDesc:{itemImages:[],customAttributeItems:[],specificationItems:[]},
           items:[],
 
@@ -204,6 +207,8 @@
     created() {
       //1. 查询一级分类
       this.findCategorys1();
+      //2. 接受修改页面的商品id，并根据id查询商品
+      this.findById();
     },
     watch:{       //用于监控某个变量值的变化
       category1newId(itemCatId,oldV){   //itemCatId：代表当前用户选择的一级分类的id
@@ -244,6 +249,8 @@
         })
       },
       typetemplatenewId(typeId,oldV){   //typeId：代表当前模板id
+        //0.1 得到修改页面传入的参数id
+        let id = this.$route.query.id;
         //1. 模板id发生变化就到后台查询出这个模板对应的品牌列表
         //2. 模板id发生变化，到模板对象中的扩展属性
         this.$http({
@@ -252,10 +259,13 @@
         }).then(({data}) => {
           if(data.code == 0){
             // console.log("data:",data)
+
             //① 得到模板的品牌列表
             this.brandList = JSON.parse(data.typeTemplate.brandIds);
             //② 得到模板的扩展属性列表
-            this.goodsForm.goodsDesc.customAttributeItems = JSON.parse(data.typeTemplate.customAttributeItems)
+            if(!id){    //如果是添加商品操作，才执行下面的语句
+              this.goodsForm.goodsDesc.customAttributeItems = JSON.parse(data.typeTemplate.customAttributeItems)
+            }
             //③ 得到模板的规格及规格选项列表
             this.$http({
               url: this.$http.adornUrl(`shop/specification/findSpecByTypeId/${typeId}`),
@@ -263,10 +273,13 @@
             }).then(({data}) => {
               this.specGroup = data.specifications;
               console.log("data:",this.specGroup);
-              this.optionList = [];
-              data.specifications.forEach(sp=>{
-                this.optionList.push([]);
-              })
+              if(!this.$route.query.id){    //此处一定要添加这个条件，否则，此值就会在显示修改页面时，将得到的optionList的值覆盖掉
+                this.optionList = [];
+                data.specifications.forEach(sp=>{
+                  this.optionList.push([]);
+                })
+              }
+
             })
           }
         })
@@ -290,6 +303,37 @@
       }
     },
     methods: {
+      //0.根据商品id，查询商品
+      findById(){
+        //0.1 得到修改页面传入的参数id
+        let id = this.$route.query.id;
+        let _this = this;
+        //0.2 根据商品id在后台查询商品
+        this.$http({
+          url: this.$http.adornUrl(`/shop/goods/findById/${id}`),
+          method: 'get',
+        }).then(({data}) => {
+          if(data.code == 0){
+            _this.goodsForm = data.goods;
+            this.goodsForm.goods.brandId = parseInt(data.goods.goods.brandId);
+            //0.3 将后端查询到的字符串转换为json对象
+            this.goodsForm.goodsDesc.specificationItems = JSON.parse(this.goodsForm.goodsDesc.specificationItems)
+            this.goodsForm.goodsDesc.itemImages = JSON.parse(this.goodsForm.goodsDesc.itemImages)
+            this.goodsForm.goodsDesc.customAttributeItems = JSON.parse(this.goodsForm.goodsDesc.customAttributeItems)
+            this.goodsForm.items.forEach(item=>{
+              item.spec = JSON.parse(item.spec);
+            })
+            //0.4 让规格选项自动勾选
+            this.optionList = [];
+            this.goodsForm.goodsDesc.specificationItems.forEach(spec=>{
+              this.optionList.push(spec.attributeValue);
+            })
+            console.log("optionList:",this.optionList);
+          }
+
+
+        })
+      },
       //1. 查询一级分类
       findCategorys1(){
         this.$http({
@@ -310,8 +354,8 @@
           })
           //2. 向后台发送请求
           this.$http({
-            url: this.$http.adornUrl('/shop/goods/save'),
-            method: 'post',
+            url: this.$http.adornUrl(`/shop/goods/${this.$route.query.id ? 'update':'save'} `),
+            method: `${this.$route.query.id ? 'put' : 'post'}`,
             data:this.goodsForm
           }).then(({data}) => {
             if(data.code == 0){
@@ -358,6 +402,9 @@
       //点击规格选项时的事件处理
       getSpecItems(){
         console.log("optionList:",this.optionList);  //this.optionList：放的是选中的规格选项的值
+        if(!this.$route.query.id){
+
+        }
         //0. 每次要设置为默认值
         this.goodsForm.goodsDesc.specificationItems = [];
         //1. 遍历optionList，在其中遍历this.specGroup,为this.goodsForm.goodsDesc.specificationItems赋值

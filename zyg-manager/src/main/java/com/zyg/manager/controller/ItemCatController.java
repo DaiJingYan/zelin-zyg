@@ -37,7 +37,10 @@ public class ItemCatController {
 
         return R.ok().put("page", page);
     }
-
+    @GetMapping("findItemCats")
+    public R findAll2(){
+        return R.ok().put("itemCatList",itemCatService.list());
+    }
 
     /**
      * 信息
