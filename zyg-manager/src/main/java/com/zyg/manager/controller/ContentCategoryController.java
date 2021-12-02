@@ -38,7 +38,11 @@ public class ContentCategoryController {
         return R.ok().put("page", page);
     }
 
-
+    //查询所有分类（不分页）
+    @GetMapping("/findAll")
+    public R findAll(){
+        return R.ok().put("contentCategorys",contentCategoryService.list());
+    }
     /**
      * 信息
      */

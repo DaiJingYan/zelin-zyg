@@ -4,24 +4,35 @@
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
-    <el-form-item label="内容类目ID" prop="categoryId">
-      <el-input v-model="dataForm.categoryId" placeholder="内容类目ID"></el-input>
+    <el-form-item label="广告分类" prop="categoryId">
+      <el-select v-model="dataForm.categoryId" placeholder="广告分类">
+        <el-option v-for="cate in contentCategorys" :label="cate.name" :value="cate.id" :key="cate.id"></el-option>
+      </el-select>
     </el-form-item>
     <el-form-item label="内容标题" prop="title">
       <el-input v-model="dataForm.title" placeholder="内容标题"></el-input>
     </el-form-item>
-    <el-form-item label="链接" prop="url">
-      <el-input v-model="dataForm.url" placeholder="链接"></el-input>
+    <el-form-item label="URL" prop="url">
+      <el-input v-model="dataForm.url" placeholder="URL"></el-input>
     </el-form-item>
-    <el-form-item label="图片绝对路径" prop="pic">
-      <el-input v-model="dataForm.pic" placeholder="图片绝对路径"></el-input>
+      <el-form-item label="排序" prop="sortOrder">
+        <el-input v-model="dataForm.sortOrder" placeholder="排序"></el-input>
+      </el-form-item>
+    <el-form-item label="上传图片" prop="pic">
+      <!--<el-input v-model="dataForm.pic" placeholder="上传图片"></el-input>-->
+      <!--文件上传组件-->
+      <!--:http-request="uploadFile" 此代码代表自定义文件上传-->
+      <el-upload
+        action=""
+        class="upload-demo"
+        :file-list="fileList"
+        :http-request="uploadFile"
+        list-type="picture">
+        <el-button size="small" type="primary">点击上传</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+      </el-upload>
     </el-form-item>
-    <el-form-item label="状态" prop="status">
-      <el-input v-model="dataForm.status" placeholder="状态"></el-input>
-    </el-form-item>
-    <el-form-item label="排序" prop="sortOrder">
-      <el-input v-model="dataForm.sortOrder" placeholder="排序"></el-input>
-    </el-form-item>
+
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取消</el-button>
@@ -44,6 +55,8 @@
           status: '',
           sortOrder: ''
         },
+        contentCategorys:[],      //广告分类
+        fileList:[],              //文件列表
         dataRule: {
           categoryId: [
             { required: true, message: '内容类目ID不能为空', trigger: 'blur' }
@@ -66,10 +79,47 @@
         }
       }
     },
+    created() {
+      //1. 查询广告分类
+      this.findCategorys();
+    },
     methods: {
+      //进行文件上传
+      uploadFile(val){
+        //1. 构造上传的表单对象
+        let data = new FormData();
+        //2. 添加要上传的文件数据
+        data.append("file",val.file);    //上传的文件对象
+        //3. 清空上传的列表
+        this.fileList = [];
+        //4. 开始上传
+        this.$http({
+          url: this.$http.adornUrl('/manager/upload'),
+          method: 'post',
+          data:data,
+          headers:{"Context-Type":"multipart/form-data"}
+        }).then(({data}) => {
+          if(data.code == 0){
+            //如果上传成功，就向文件列表添加文件
+            this.fileList.push({name:val.raw,url:data.url});
+            this.dataForm.pic = data.url;
+          }
+        })
+      },
+      //1. 查询广告分类
+      findCategorys(){
+        this.$http({
+          url: this.$http.adornUrl(`/manager/contentcategory/findAll`),
+          method: 'get'
+        }).then(({data}) => {
+          console.log("data:",data);
+           this.contentCategorys = data.contentCategorys;
+        })
+      },
       init (id) {
         this.dataForm.id = id || 0
         this.visible = true
+        this.fileList = [];
         this.$nextTick(() => {
           this.$refs['dataForm'].resetFields()
           if (this.dataForm.id) {
@@ -96,7 +146,7 @@
           if (valid) {
             this.$http({
               url: this.$http.adornUrl(`/manager/content/${!this.dataForm.id ? 'save' : 'update'}`),
-              method: 'post',
+              method: `${this.dataForm.id ? 'put' : 'post'}`,
               data: this.$http.adornData({
                 'id': this.dataForm.id || undefined,
                 'categoryId': this.dataForm.categoryId,

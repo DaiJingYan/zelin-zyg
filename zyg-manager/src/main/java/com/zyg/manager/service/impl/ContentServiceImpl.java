@@ -1,6 +1,12 @@
 package com.zyg.manager.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -15,6 +21,8 @@ import com.zyg.manager.service.ContentService;
 
 @Service("contentService")
 public class ContentServiceImpl extends ServiceImpl<ContentDao, ContentEntity> implements ContentService {
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -26,4 +34,24 @@ public class ContentServiceImpl extends ServiceImpl<ContentDao, ContentEntity> i
         return new PageUtils(page);
     }
 
+    //2. 从缓存中得到图片，第一次没有就从数据库取
+    @Override
+    public List<ContentEntity> findAll() {
+        List<ContentEntity> contentEntities = null;
+        //2.1 从redis中得到广告列表
+        //2.2 得到广告列表的字符串
+        String contentListStr = redisTemplate.opsForValue().get("contentList");
+        //2.3 转换为对象
+        if(StrUtil.isNotBlank(contentListStr)){ //如果有内容就转换
+            contentEntities = JSON.parseArray(contentListStr,ContentEntity.class);
+        }else{      //2.4 没有内容就从数据库中取
+            List<ContentEntity> list = this.list();
+            System.out.println("从数据库中取广告列表。。。");
+            //2.5 放到redis中
+            redisTemplate.opsForValue().set("contentList",JSON.toJSONString(list));
+        }
+
+        //2.4 返回广告内容
+        return contentEntities;
+    }
 }
