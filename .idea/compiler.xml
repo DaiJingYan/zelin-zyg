@@ -14,6 +14,7 @@
         <module name="renren-fast-manager" />
         <module name="zyg-shop" />
         <module name="zyg-manager" />
+        <module name="zyg-search" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />
@@ -26,6 +27,7 @@
       <module name="renren-generator" options="-parameters" />
       <module name="zyg-common" options="-parameters" />
       <module name="zyg-manager" options="-parameters" />
+      <module name="zyg-search" options="-parameters" />
       <module name="zyg-shop" options="-parameters" />
     </option>
   </component>
