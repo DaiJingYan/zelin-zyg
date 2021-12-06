@@ -1,6 +1,7 @@
 package com.zyg.manager.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -48,6 +49,15 @@ public class TypeTemplateController {
 		TypeTemplateEntity typeTemplate = typeTemplateService.getById(id);
 
         return R.ok().put("typeTemplate", typeTemplate);
+    }
+
+    //查询所有的模板
+    @GetMapping("findAll")
+    public R findAll(){
+        //1. 查询所有的模板集合
+        List<TypeTemplateEntity> typeTemplateEntities = typeTemplateService.findAll();
+        //2. 返回
+        return R.ok().put("templates",typeTemplateEntities);
     }
 
     /**

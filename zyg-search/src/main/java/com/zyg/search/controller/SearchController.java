@@ -25,6 +25,7 @@ public class SearchController {
     //1. 映射默认页面
     @GetMapping({"/","/search.html","/search"})
     public String index(Model model, ItemVo vo){    //vo：用于查询参数
+        System.out.println("vo = " + vo);
         //2.1 通过前端传入的参数查询到数据
         Map<String,Object> resultMap = searchService.search(vo);
         //2.2 将查询结果放到model中

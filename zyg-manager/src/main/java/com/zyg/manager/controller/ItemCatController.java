@@ -1,6 +1,7 @@
 package com.zyg.manager.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -40,6 +41,12 @@ public class ItemCatController {
     @GetMapping("findItemCats")
     public R findAll2(){
         return R.ok().put("itemCatList",itemCatService.list());
+    }
+
+    @GetMapping("findAll")
+    public R findAll(){
+        List<ItemCatEntity> itemCatEntityList = itemCatService.findAll();
+        return R.ok().put("list",itemCatEntityList);
     }
 
     /**
