@@ -1,4 +1,4 @@
-package com.zyg.entity.vo;
+package com.zyg.page.entity.vo;
 
 import lombok.Data;
 

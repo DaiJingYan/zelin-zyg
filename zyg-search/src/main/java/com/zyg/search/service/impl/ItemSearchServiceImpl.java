@@ -172,7 +172,6 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             brandAndSpecMap = findBrandAndSpecMap(category);
         }
 
-
         /*-------------------------------- 第五部分： 将查询结果放到结果Map --------------------------------*/
         //5.1 将高亮集合放到resultMap中
         resultMap.put("rows",highlights);

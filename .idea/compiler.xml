@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="zyg-page" />
         <module name="zyg-common" />
         <module name="renren-generator" />
         <module name="renren-fast-shop" />
@@ -27,6 +28,7 @@
       <module name="renren-generator" options="-parameters" />
       <module name="zyg-common" options="-parameters" />
       <module name="zyg-manager" options="-parameters" />
+      <module name="zyg-page" options="-parameters" />
       <module name="zyg-search" options="-parameters" />
       <module name="zyg-shop" options="-parameters" />
     </option>

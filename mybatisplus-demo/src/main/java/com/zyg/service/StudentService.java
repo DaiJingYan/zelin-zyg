@@ -1,8 +1,8 @@
 package com.zyg.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zyg.entity.Student;
-import com.zyg.entity.vo.StudentVo;
+import com.zyg.page.entity.Student;
+import com.zyg.page.entity.vo.StudentVo;
 
 import java.util.List;
 

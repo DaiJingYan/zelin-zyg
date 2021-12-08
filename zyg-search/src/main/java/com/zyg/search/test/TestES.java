@@ -45,4 +45,12 @@ public class TestES {
         System.out.println("保存到索引库成功！");
 
     }
+
+    @Test
+    public void test02(){
+        List<ItemEntity> list = itemService.lambdaQuery().eq(r -> r.getGoodsId(), "1465514396147527681").list();
+        for (ItemEntity itemEntity : list) {
+            System.out.println(itemEntity);
+        }
+    }
 }

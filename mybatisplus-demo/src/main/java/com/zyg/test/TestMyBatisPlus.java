@@ -1,13 +1,12 @@
 package com.zyg.test;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zyg.entity.Student;
-import com.zyg.entity.vo.StudentVo;
+import com.zyg.page.entity.Student;
+import com.zyg.page.entity.vo.StudentVo;
 import com.zyg.service.StudentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestExecutionListeners;
 
 import java.util.List;
 
