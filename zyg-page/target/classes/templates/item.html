@@ -64,7 +64,10 @@
 				spec.attributeValue.forEach(val=>{
 					attrInfo += `
 					<dd >
-						<a href="javascript:;"  onclick="getSpec(this,'${val}')">${val}</a>
+						<a href="javascript:;"  onclick="getSpec(this,'${val}')">
+						${val}
+						<span>&nbsp;</span>
+						</a>
 					</dd>
 					`
 				})
@@ -73,6 +76,7 @@
 			$("#specification").html(attrInfo);
 		})
 
+		//点击某个规格选项时触发
 		function getSpec(v,val){
 			//1. 为全局变量optionVal设置值
 			optionVal = val;
