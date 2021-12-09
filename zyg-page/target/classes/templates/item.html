@@ -14,7 +14,12 @@
     <link rel="stylesheet" type="text/css" href="css/widget-cartPanelView.css" />
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+	<style>
+		dd {
 
+			text-align: center;
+		}
+	</style>
 	<script th:inline="javascript">
 
 		//1.设置用到的变量值
@@ -41,6 +46,7 @@
 			//2.3 当窗体一加载完成，让默认的sku商品的规格
 			showDefaultSpec();
 		})
+
 		//3. 当窗体一加载完成，让默认的sku商品的规格
 		function showDefaultSpec(){
 			//3.1 得到sku商品的规格
@@ -49,10 +55,13 @@
 				console.log(i + ":" + skuSpec[i]);
 				//3.2 根据id选择默认sku商品的规格
 				$("#"+i + "-" + skuSpec[i]).addClass('selected');
+				//3.3 为当前用户的规格对象赋值（代表用户选择的对象）
 				specification[i] = skuSpec[i]
 			}
+			//3.4 设置商品标题及价格
 			setTitle();
 		}
+
 		//4. 显示图片
 		function showPic(){
 			//4.1 对放大镜图片设置src样式
@@ -65,6 +74,7 @@
 			//4.3 设置所有的图片到ul中显示
 			$(".items ul").html(imageStr);
 		}
+
 		//5. 显示自定义扩展属性及规格
 		function showSpecAttr(){
 			//5.1 定义展示的自定义扩展属性字符串加上规格属性
@@ -73,11 +83,11 @@
 			customAttributeItems.forEach(customAttr=>{
 				attrInfo += `<dl>
 									<dt id="attr">
-										<div class="fl title">
+										<div class="fl title"  style="width:50px">
 											<i>${customAttr.text}</i>
 										</div>
 									</dt>
-									<dd><a href="javascript:;">${customAttr.value}</a></dd>
+									<dd><a href="javascript:;" style="">${customAttr.value}</a></dd>
 								</dl>`
 			})
 			//5.1.2 展示规格
@@ -85,15 +95,15 @@
 			specificationItems.forEach(spec=>{
 				attrInfo += `
 					<dl class="spec" id="spec${i++}">
-						<dt>
-							<div class="fl title">
+						<dt >
+							<div class="fl title" style="width:50px">
 								<i>${spec.attributeName}</i>
 							</div>
 						</dt>`;
 				spec.attributeValue.forEach(val=>{
 					attrInfo += `
 					<dd >
-						<a href="javascript:;" id="${spec.attributeName}-${val}"
+						<a href="javascript:;"  style="width:40px;" id="${spec.attributeName}-${val}"
 						   onclick="getSpec(this,'${spec.attributeName}','${val}',${i-1})">
 						${val}
 						<span>&nbsp;</span>
@@ -105,10 +115,11 @@
 			})
 			$("#specification").html(attrInfo);
 		}
+
 		//6. 点击某个规格选项时触发
 		function getSpec(v,specName,val,i){
 
-			//6.1 为全局变量optionVal设置值
+			//6.1 当用户点了某个规格选项时有其赋值
 			specification[specName] = val;
 			//6.2 取消某个规格的所有规格选项的选中状态
 			//方法一：
@@ -136,6 +147,7 @@
 			$("#itemPrice").html(sku.price);
 		}
 
+		//8. 比较对象是否相等
 		function matchObject(m1,m2){
 			for (const k1 in m1) {
 				if(m1[k1] != m2[k1]){
@@ -149,7 +161,6 @@
 			}
 			return true;
 		}
-
 	</script>
 </head>
 

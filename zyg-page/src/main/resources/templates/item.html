@@ -14,7 +14,12 @@
     <link rel="stylesheet" type="text/css" href="css/widget-cartPanelView.css" />
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+	<style>
+		dd {
 
+			text-align: center;
+		}
+	</style>
 	<script th:inline="javascript">
 
 		//1.设置用到的变量值
@@ -78,11 +83,11 @@
 			customAttributeItems.forEach(customAttr=>{
 				attrInfo += `<dl>
 									<dt id="attr">
-										<div class="fl title">
+										<div class="fl title"  style="width:50px">
 											<i>${customAttr.text}</i>
 										</div>
 									</dt>
-									<dd><a href="javascript:;">${customAttr.value}</a></dd>
+									<dd><a href="javascript:;" style="">${customAttr.value}</a></dd>
 								</dl>`
 			})
 			//5.1.2 展示规格
@@ -90,15 +95,15 @@
 			specificationItems.forEach(spec=>{
 				attrInfo += `
 					<dl class="spec" id="spec${i++}">
-						<dt>
-							<div class="fl title">
+						<dt >
+							<div class="fl title" style="width:50px">
 								<i>${spec.attributeName}</i>
 							</div>
 						</dt>`;
 				spec.attributeValue.forEach(val=>{
 					attrInfo += `
 					<dd >
-						<a href="javascript:;" id="${spec.attributeName}-${val}"
+						<a href="javascript:;"  style="width:40px;" id="${spec.attributeName}-${val}"
 						   onclick="getSpec(this,'${spec.attributeName}','${val}',${i-1})">
 						${val}
 						<span>&nbsp;</span>
