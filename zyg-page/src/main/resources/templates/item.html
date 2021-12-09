@@ -41,6 +41,7 @@
 			//2.3 当窗体一加载完成，让默认的sku商品的规格
 			showDefaultSpec();
 		})
+
 		//3. 当窗体一加载完成，让默认的sku商品的规格
 		function showDefaultSpec(){
 			//3.1 得到sku商品的规格
@@ -55,6 +56,7 @@
 			//3.4 设置商品标题及价格
 			setTitle();
 		}
+
 		//4. 显示图片
 		function showPic(){
 			//4.1 对放大镜图片设置src样式
@@ -67,6 +69,7 @@
 			//4.3 设置所有的图片到ul中显示
 			$(".items ul").html(imageStr);
 		}
+
 		//5. 显示自定义扩展属性及规格
 		function showSpecAttr(){
 			//5.1 定义展示的自定义扩展属性字符串加上规格属性
@@ -107,6 +110,7 @@
 			})
 			$("#specification").html(attrInfo);
 		}
+
 		//6. 点击某个规格选项时触发
 		function getSpec(v,specName,val,i){
 
