@@ -10,7 +10,8 @@ spring:
     cache: false
   redis:
     host: 192.168.56.17
-
+  application:
+    name: zyg-search
 logging:
   level:
     com.zyg.search: debug

@@ -6,11 +6,12 @@ spring:
     url: jdbc:mysql://192.168.56.17:3306/zyg_manager?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
     password: 123
-
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
     suffix: .html
+  application:
+    name: zyg-page
 logging:
   level:
     com.zyg.page: debug
