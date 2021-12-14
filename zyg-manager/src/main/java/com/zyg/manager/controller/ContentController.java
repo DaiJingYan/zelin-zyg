@@ -58,7 +58,7 @@ public class ContentController {
     @PostMapping("/save")
     //@RequiresPermissions("manager:content:save")
     public R save(@RequestBody ContentEntity content){
-        redisTemplate.delete("contentList");
+        //redisTemplate.delete("contentList");
 		contentService.save(content);
         return R.ok();
     }
@@ -69,7 +69,7 @@ public class ContentController {
     @PutMapping("/update")
     //@RequiresPermissions("manager:content:update")
     public R update(@RequestBody ContentEntity content){
-        redisTemplate.delete("contentList");
+        //redisTemplate.delete("contentList");
 		contentService.updateById(content);
 
         return R.ok();
@@ -81,7 +81,7 @@ public class ContentController {
     @DeleteMapping("/delete")
     //@RequiresPermissions("manager:content:delete")
     public R delete(@RequestBody String[] ids){
-        redisTemplate.delete("contentList");
+        //redisTemplate.delete("contentList");
 		contentService.removeByIds(Arrays.asList(ids));
 
         return R.ok();

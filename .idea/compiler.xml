@@ -12,6 +12,7 @@
         <module name="rabbitmq-producer" />
         <module name="renren-generator" />
         <module name="renren-fast-shop" />
+        <module name="canal-demo" />
         <module name="mybatisplus-demo" />
         <module name="zyg-user" />
         <module name="rabbitmq-consumer" />
@@ -25,6 +26,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="canal-demo" options="-parameters" />
       <module name="mybatisplus-demo" options="-parameters" />
       <module name="rabbitmq-consumer" options="-parameters" />
       <module name="rabbitmq-producer" options="-parameters" />
