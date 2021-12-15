@@ -5,6 +5,7 @@ import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import com.zyg.manager.entity.BrandEntity;
@@ -26,6 +27,8 @@ import com.zyg.common.utils.R;
 public class BrandController {
     @Autowired
     private BrandService brandService;
+    @Value("${server.port}")
+    private int port;       //得到端口号
     /**
      * 列表
      */
@@ -40,6 +43,7 @@ public class BrandController {
     //2. 查询品牌
     @GetMapping("/findAll")
     public R findAll(){
+        System.out.println("manager-port:" + port);
         return R.ok().put("list",brandService.list());
     }
     /**

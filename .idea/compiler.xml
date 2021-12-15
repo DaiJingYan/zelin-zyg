@@ -7,19 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="zyg-page" />
-        <module name="zyg-common" />
         <module name="rabbitmq-producer" />
-        <module name="renren-generator" />
+        <module name="zyg-page" />
+        <module name="zyg-search" />
+        <module name="renren-fast-manager" />
         <module name="renren-fast-shop" />
         <module name="canal-demo" />
-        <module name="mybatisplus-demo" />
-        <module name="zyg-user" />
-        <module name="rabbitmq-consumer" />
-        <module name="renren-fast-manager" />
+        <module name="zyg-gateway" />
+        <module name="renren-generator" />
         <module name="zyg-shop" />
         <module name="zyg-manager" />
-        <module name="zyg-search" />
+        <module name="mybatisplus-demo" />
+        <module name="rabbitmq-consumer" />
+        <module name="zyg-user" />
+        <module name="zyg-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />
@@ -34,6 +35,7 @@
       <module name="renren-fast-shop" options="-parameters" />
       <module name="renren-generator" options="-parameters" />
       <module name="zyg-common" options="-parameters" />
+      <module name="zyg-gateway" options="-parameters" />
       <module name="zyg-manager" options="-parameters" />
       <module name="zyg-page" options="-parameters" />
       <module name="zyg-search" options="-parameters" />
