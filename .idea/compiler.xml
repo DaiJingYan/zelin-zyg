@@ -13,6 +13,7 @@
         <module name="renren-fast-manager" />
         <module name="renren-fast-shop" />
         <module name="canal-demo" />
+        <module name="junit5demo" />
         <module name="zyg-gateway" />
         <module name="renren-generator" />
         <module name="zyg-shop" />
@@ -23,11 +24,14 @@
         <module name="zyg-common" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8" />
+    <bytecodeTargetLevel target="8">
+      <module name="junit5demo" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="canal-demo" options="-parameters" />
+      <module name="junit5demo" options="-parameters" />
       <module name="mybatisplus-demo" options="-parameters" />
       <module name="rabbitmq-consumer" options="-parameters" />
       <module name="rabbitmq-producer" options="-parameters" />

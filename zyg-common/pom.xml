@@ -92,10 +92,6 @@
             <artifactId>spring-boot-test</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-        </dependency>
         <!--添加阿里云发送短信服务的依赖(老版)-->
         <!--<dependency>-->
         <!--    <groupId>com.aliyun</groupId>-->

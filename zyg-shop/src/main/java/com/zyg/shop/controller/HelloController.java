@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping
 @RefreshScope
 public class HelloController {
-    @Value("${user.name}")
+    // @Value("${user.name}")
     private String name;
-    @Value("${user.age}")
+   // @Value("${user.age}")
     private int age;
 
 

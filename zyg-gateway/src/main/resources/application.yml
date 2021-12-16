@@ -23,16 +23,48 @@ spring:
 #          predicates:
 #          - Path=/user/**
 
+        - id: zyg-manager
+          uri: lb://zyg-manager
+          predicates:
+          - Path=/manager/**
+        - id: zyg-shop
+          uri: lb://zyg-shop
+          predicates:
+            - Path=/shop/**
 #方案二：配置主机名映射
         - id: zyg-portal-host
           uri: lb://zyg-manager
           predicates:
-          - Host=portal.zeyigou.com
+          - Host=portal.zeyigou.com  #(重要)
+
         - id: zyg-search-host
           uri: lb://zyg-search
           predicates:
-          - Host=search.zeyigou.com
+          - Host=search.zeyigou.com  #(重要)
+
         - id: zyg-user-host
           uri: lb://zyg-user
           predicates:
           - Host=user.zeyigou.com
+          - Header=myId,1001
+          - Method=GET,POST
+          - Query=param,zelin
+          - Cookie=cook,val
+          filters:
+#          - StripPrefix=1   #去掉请求地址后的一层路径(重要)
+#          - RewritePath=/red/user(?<segment>/?.*), /user$\{segment}  #路径重写(重要)
+           - AddRequestHeader=myHeader, blue
+           - AddRequestParameter=red, blue
+        - id: zyg-manager-host
+          uri: http://localhost:8081
+          predicates:
+          - Host=manager.zeyigou.com
+          filters:
+          - PrefixPath=/renren-fast
+
+        - id: zyg-shop-host
+          uri: lb://renren-fast-shop
+          predicates:
+          - Host=shop.zeyigou.com
+          filters:
+          - PrefixPath=/renren-fast
