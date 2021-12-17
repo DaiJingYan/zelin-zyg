@@ -1,5 +1,6 @@
 package com.zyg.user;
 
+import net.unicon.cas.client.configuration.EnableCasClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;

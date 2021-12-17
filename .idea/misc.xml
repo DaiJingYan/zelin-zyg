@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file url="file://$PROJECT_DIR$/cas-overlay-template-5.3/overlays" />
+    <file type="web" url="file://$PROJECT_DIR$/cas-overlay-template-5.3" />
+  </component>
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />
   </component>
@@ -15,6 +19,7 @@
         <option value="$PROJECT_DIR$/renren-fast-manager/pom.xml" />
         <option value="$PROJECT_DIR$/renren-fast-shop/pom.xml" />
         <option value="$PROJECT_DIR$/junit5demo/pom.xml" />
+        <option value="$PROJECT_DIR$/cas-overlay-template-5.3/pom.xml" />
       </list>
     </option>
   </component>
