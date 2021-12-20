@@ -5,15 +5,20 @@ import com.zyg.user.client.ManagerClient;
 import com.zyg.user.entity.TbUser;
 import com.zyg.user.service.UserService;
 import net.bytebuddy.asm.Advice;
+import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.jasig.cas.client.jaas.CasLoginModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.openfeign.FeignClient;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * ------------------------------
@@ -63,7 +68,12 @@ public class UserController {
     //4. 查询zyg-manager微服务的所有品牌
     @GetMapping("user/brand/list")
     @ResponseBody
-    public R findAll(){
+    public R findAll(HttpServletRequest request){
+       // HttpServletRequest request = ServletActionContext.getRequest();
+        //获取用户名（cas登录名的获取方式）
+        AttributePrincipal principal = (AttributePrincipal)request.getUserPrincipal();
+        String username = principal.getName();
+        System.out.println("username = " + username);
         return managerClient.findAll();
     }
 }

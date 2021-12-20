@@ -36,13 +36,14 @@ public class BrandController {
     //@RequiresPermissions("manager:brand:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = brandService.queryPage(params);
-
+        
         return R.ok().put("page", page);
     }
 
     //2. 查询品牌
     @GetMapping("/findAll")
     public R findAll(){
+
         System.out.println("manager-port:" + port);
         return R.ok().put("list",brandService.list());
     }

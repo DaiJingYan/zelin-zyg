@@ -38,7 +38,10 @@ public class ItemController {
         return R.ok().put("page", page);
     }
 
-
+    @GetMapping("/findById/{id}")
+    public ItemEntity findById(@PathVariable String id){
+        return itemService.getById(id);
+    }
     /**
      * 信息
      */
