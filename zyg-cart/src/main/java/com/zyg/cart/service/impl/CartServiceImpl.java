@@ -36,7 +36,6 @@ public class CartServiceImpl implements CartService {
     //1. 添加商品到购物车(放到redis中)
     @Override
     public List<Cart> addCart(Long itemId, int num,String name) {
-
         List<Cart> cartList = null;
         //1.1 根据登录名name得到redis中的购物车列表信息
         String cartListStr = redisTemplate.opsForValue().get(name);
@@ -82,8 +81,6 @@ public class CartServiceImpl implements CartService {
 
         return cartList;
     }
-
-  
 
     //2. 根据商家id来查找购物车
     private Cart findCartBySellerId(List<Cart> cartList,String sellerId) {
