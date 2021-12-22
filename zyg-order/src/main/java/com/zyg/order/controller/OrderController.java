@@ -1,6 +1,9 @@
 package com.zyg.order.controller;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.zyg.common.entity.TbPayLog;
+import com.zyg.common.utils.R;
+import com.zyg.order.client.UserClient;
 import com.zyg.order.entity.Cart;
 import com.zyg.order.entity.TbAddress;
 import com.zyg.order.entity.TbOrder;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -32,6 +36,8 @@ public class OrderController {
     private AddressService addressService;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private UserClient userClient;
     /**
      * 功能: 1. 默认页面
      * 参数: 
@@ -70,5 +76,11 @@ public class OrderController {
         //2.2 保存订单
         orderService.save(order,name);
         return "pay";
+    }
+    
+    @PostMapping("/paylog/add")
+    public R payLogAdd(@RequestBody TbPayLog payLog){
+        userClient.add(payLog);
+        return R.ok();
     }
 }

@@ -1,4 +1,4 @@
-package com.zyg.order.dao;
+package com.zyg.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zyg.common.entity.TbPayLog;
