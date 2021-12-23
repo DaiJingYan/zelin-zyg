@@ -8,8 +8,8 @@
           <element id="module-output" name="alipay.trade.page.pay-JAVA-UTF-8" />
         </element>
         <element id="directory" name="lib">
-          <element id="file-copy" path="$PROJECT_DIR$/WebContent/WEB-INF/lib/alipay-sdk-java20170324180803.jar" />
-          <element id="file-copy" path="$PROJECT_DIR$/WebContent/WEB-INF/lib/commons-logging-1.1.1.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/alipay/WebContent/WEB-INF/lib/alipay-sdk-java20170324180803.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/alipay/WebContent/WEB-INF/lib/commons-logging-1.1.1.jar" />
         </element>
       </element>
     </root>
