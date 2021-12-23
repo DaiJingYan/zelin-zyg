@@ -1,6 +1,7 @@
 package com.zyg.order.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.zyg.common.entity.PayVo;
 import com.zyg.common.entity.TbPayLog;
 import com.zyg.common.utils.IdWorker;
 import com.zyg.order.client.UserClient;
@@ -59,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
         //2.1.1 定义存放订单id的集合
         List<String> ids = new ArrayList<>();
         //2.2 遍历购物车
+        double total = 0;
         for (Cart cart : cartList) {
             //第一部分：添加订单对象
             //1.1 构造要添加的订单对象
@@ -93,34 +95,47 @@ public class OrderServiceImpl implements OrderService {
                 //2.3 添加订单项
                 orderItemMapper.insert(orderItem);
             }
-
+            //累加所有的订单金额之和
+            total += sum;
             //第三部分：添加订单
             order.setPayment(new BigDecimal(sum));      //设置订单总金额
             orderMapper.insert(order);
 
-            //第四部分：添加订单日志
-            if(tbOrder.getPaymentType().equals("1")){
-                //4.1 定义一个TbPaylog对象
-                TbPayLog payLog = new TbPayLog();
-                payLog.setOutTradeNo(idWorker.nextId() + "");
-                //4.2 得到订单id
-                String orderIds = ids.toString().replace("[", "").replace("]", "");
-                payLog.setOrderList(orderIds);
-
-                payLog.setCreateTime(new Date());
-                payLog.setPayType("2");
-                payLog.setTotalFee((long)(sum * 100));
-                payLog.setTradeState("0");      //0: 未支付 1：己支付
-                payLog.setUserId(name);
-                // payLogMapper.insert(payLog);
-                userClient.add(payLog);
-                //4.3 添加redis中
-                redisTemplate.opsForValue().set("paylog:" + name,JSON.toJSONString(payLog));
-
-            }
         }
-        
+        //第四部分：添加订单日志
+        if(tbOrder.getPaymentType().equals("1")){
+            //4.1 定义一个TbPaylog对象
+            TbPayLog payLog = new TbPayLog();
+            payLog.setOutTradeNo(idWorker.nextId() + "");
+            //4.2 得到订单id
+            String orderIds = ids.toString().replace("[", "").replace("]", "");
+            payLog.setOrderList(orderIds);
+
+            payLog.setCreateTime(new Date());
+            payLog.setPayType("2");
+            payLog.setTotalFee((long)(total * 100));
+            payLog.setTradeState("0");      //0: 未支付 1：己支付
+            payLog.setUserId(name);
+            // payLogMapper.insert(payLog);
+            userClient.add(payLog);
+            //4.3 添加redis中
+            redisTemplate.opsForValue().set("paylog:" + name,JSON.toJSONString(payLog));
+        }
+
     }
+
+    /**
+     * 功能: 从redis得到支付日志
+     * 参数: 
+     * 返回值: com.zyg.common.entity.TbPayLog
+     * 时间: 2021/12/23 14:18
+     */
+    @Override
+    public TbPayLog getPayLogFromRedis(String name) {
+        return JSON.parseObject(redisTemplate.opsForValue().get("paylog:" + name),TbPayLog.class);
+    }
+
+  
 
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();

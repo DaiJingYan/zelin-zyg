@@ -26,7 +26,7 @@ public class PayLogServiceImpl implements PayLogService {
     @Override
     @Transactional
     public void add(TbPayLog payLog) {
-        int i = 10 / 0;
+        // int i = 10 / 0;
         payLogMapper.insert(payLog);
     }
 }
