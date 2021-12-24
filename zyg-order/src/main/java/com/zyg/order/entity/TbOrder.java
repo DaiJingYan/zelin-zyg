@@ -174,5 +174,5 @@ public class TbOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableField(exist = false)
-    private List<TbOrderItem> orderItemEntities;
+    private List<TbOrderItem> orderItems;
 }

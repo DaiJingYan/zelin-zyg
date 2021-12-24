@@ -10,7 +10,6 @@
         <module name="rabbitmq-producer" />
         <module name="zyg-page" />
         <module name="zyg-search" />
-        <module name="zyg-common" />
         <module name="renren-fast-manager" />
         <module name="renren-fast-shop" />
         <module name="cas-overlay" />
@@ -21,9 +20,10 @@
         <module name="zyg-order" />
         <module name="zyg-shop" />
         <module name="zyg-manager" />
+        <module name="mybatisplus-demo" />
         <module name="rabbitmq-consumer" />
         <module name="zyg-user" />
-        <module name="mybatisplus-demo" />
+        <module name="zyg-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">

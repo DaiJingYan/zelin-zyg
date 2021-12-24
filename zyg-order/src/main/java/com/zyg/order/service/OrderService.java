@@ -18,6 +18,6 @@ public interface OrderService {
     void save(TbOrder order,String name);
 
     TbPayLog getPayLogFromRedis(String name);
-
- 
+    
+    List<TbOrder> getOrderList(String loginName);
 }

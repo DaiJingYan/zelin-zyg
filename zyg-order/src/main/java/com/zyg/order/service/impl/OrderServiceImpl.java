@@ -1,6 +1,7 @@
 package com.zyg.order.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zyg.common.entity.PayVo;
 import com.zyg.common.entity.TbPayLog;
 import com.zyg.common.utils.IdWorker;
@@ -135,7 +136,27 @@ public class OrderServiceImpl implements OrderService {
         return JSON.parseObject(redisTemplate.opsForValue().get("paylog:" + name),TbPayLog.class);
     }
 
-  
+    /**
+     * 功能: 根据登录名获取订单及订单项列表
+     * 参数:
+     * 返回值: java.util.List<com.zyg.order.entity.TbOrder>
+     * 时间: 2021/12/24 14:41
+     */
+    @Override
+    public List<TbOrder> getOrderList(String loginName) {
+        //1. 得到登录用户的订单列表
+        List<TbOrder> orders = orderMapper.selectList(new QueryWrapper<TbOrder>().eq("user_id", loginName));
+        //2. 为登录用户的订单项列表设置值
+        for (TbOrder order : orders) {
+            //2.1 根据订单id（外键）查询出订单项列表
+            List<TbOrderItem> orderItems = orderItemMapper.selectList(new QueryWrapper<TbOrderItem>().eq("order_id", order.getOrderId()));
+            //2.2 与订单对象进行绑定
+            order.setOrderItems(orderItems);
+        }
+        //3. 返回 
+        return orders;
+    }
+
 
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();

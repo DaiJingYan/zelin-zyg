@@ -7,4 +7,8 @@ import com.zyg.common.entity.TbPayLog;
  */
 public interface PayLogService {
     void add(TbPayLog payLog);
+
+    void update(TbPayLog payLog);
+
+    TbPayLog findById(String outTradeNo);
 }
