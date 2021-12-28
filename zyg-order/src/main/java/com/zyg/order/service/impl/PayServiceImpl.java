@@ -35,8 +35,8 @@ public class PayServiceImpl implements PayService {
     private OrderService orderService;
     @Autowired
     private UserClient userClient;
-    @Autowired
-    private TbOrderMapper orderMapper;
+    // @Autowired
+    // private TbOrderMapper orderMapper;
     /**
      * 功能: 1. 进行验签处理
      * 参数: 
@@ -72,11 +72,11 @@ public class PayServiceImpl implements PayService {
                     //2.2 拆分得到每个id
                     for (String id : orderList.split(",")) {
                         //2.2.1 得到订单
-                        TbOrder order = orderMapper.selectById(id);
+                        TbOrder order = orderService.findById(id);
                         //2.2.2 修改订单状态为己支付
                         order.setStatus("2");
                         //2.2.3 保存订单
-                        orderMapper.updateById(order);
+                        orderService.update(order);
                     }
                 }
                 return "success";

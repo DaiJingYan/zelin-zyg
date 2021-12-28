@@ -14,9 +14,22 @@ spring:
     host: 192.168.56.17
   redis:
     host: 192.168.56.17
+  cloud:
+    sentinel:
+      web-context-unify: false
+      transport:
+        port: 8719
+        dashboard: localhost:8088
+      block-page: /flow/blockPage
+#      filter:
+#        enabled: false
+#
+
 logging:
   level:
     com.zyg.user: debug
 feign:
-  hystrix:
+#  hystrix:
+#    enabled: true
+  sentinel:
     enabled: true

@@ -157,6 +157,29 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    /**
+     * 功能: 修改订单
+     * 参数: 
+     * 返回值: void
+     * 时间: 2021/12/27 8:22
+     */
+    @Override
+    @Transactional
+    public void update(TbOrder order) {
+        orderMapper.updateById(order);
+    }
+
+    /**
+     * 功能: 根据订单id查询订单 
+     * 参数: 
+     * 返回值: com.zyg.order.entity.TbOrder
+     * 时间: 2021/12/27 8:24
+     */
+    @Override
+    public TbOrder findById(String id) {
+        return orderMapper.selectById(id);
+    }
+
 
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();

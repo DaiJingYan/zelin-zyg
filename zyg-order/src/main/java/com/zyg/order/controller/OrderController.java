@@ -174,6 +174,7 @@ public class OrderController {
         
         //3. 进行验签处理
         String result = payService.validSignature(vo,params);
+        System.out.println("result = " + result);
         //4. 返回
         return result;
     }

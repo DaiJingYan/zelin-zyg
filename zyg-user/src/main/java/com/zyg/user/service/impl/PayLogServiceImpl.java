@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.ws.ServiceMode;
 
 /**
  * ------------------------------
@@ -33,6 +32,7 @@ public class PayLogServiceImpl implements PayLogService {
 
     //2. 修改支付日志
     @Override
+    @Transactional
     public void update(TbPayLog payLog) {
         payLogMapper.updateById(payLog);
     }
