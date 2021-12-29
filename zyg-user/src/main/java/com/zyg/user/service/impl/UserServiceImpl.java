@@ -84,4 +84,10 @@ public class UserServiceImpl implements UserService {
         //3.3 保存用户
         userMapper.insert(user);
     }
+
+    //4. 根据用户id查询用户对象
+    @Override
+    public TbUser findById(Long id) {
+        return userMapper.selectById(id);
+    }
 }

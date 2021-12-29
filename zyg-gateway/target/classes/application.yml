@@ -31,6 +31,10 @@ spring:
           uri: lb://zyg-shop
           predicates:
             - Path=/shop/**
+        - id: zyg-user
+          uri: lb://zyg-user
+          predicates:
+            - Path=/user/**
 
 #方案二：配置主机名映射
         - id: zyg-user-host

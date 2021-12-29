@@ -14,6 +14,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
@@ -65,6 +66,7 @@ public class UserController {
         return "register";
     }
 
+
     //4. 查询zyg-manager微服务的所有品牌
     @GetMapping("user/brand/list")
     @ResponseBody
@@ -75,5 +77,15 @@ public class UserController {
         String username = principal.getName();
         System.out.println("username = " + username);
         return managerClient.findAll();
+    }
+
+    //5. 根据用户id查询用户
+    @GetMapping("/user/findById/{id}")
+    @ResponseBody
+    public R findById(@PathVariable Long id){
+        //5.1 根据用户id查询得到用户
+        TbUser user = userService.findById(id);
+        //5.2 返回
+        return R.ok().put("user",user);
     }
 }

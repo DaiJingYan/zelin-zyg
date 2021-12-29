@@ -20,11 +20,19 @@ spring:
       transport:
         port: 8719
         dashboard: localhost:8088
-      block-page: /flow/blockPage
+#      block-page: /flow/blockPage
+      eager: true
+      datasource:
+        ds1:
+          nacos:
+            serverAddr: localhost:8848
+            dataId: zyg-user
+            groupId: DEFAULT_GROUP
+            dataType: json
+            ruleType: flow
 #      filter:
 #        enabled: false
 #
-
 logging:
   level:
     com.zyg.user: debug
@@ -33,3 +41,5 @@ feign:
 #    enabled: true
   sentinel:
     enabled: true
+seata:
+  enabled: false

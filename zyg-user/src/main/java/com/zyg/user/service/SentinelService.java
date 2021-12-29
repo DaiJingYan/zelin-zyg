@@ -5,4 +5,6 @@ package com.zyg.user.service;
  */
 public interface SentinelService {
     String message();
+
+    String getMessage();
 }

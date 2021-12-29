@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * 创建时间：2021/12/28-15:54
  * ------------------------------
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class MyExceptionHandler {
 
     @ExceptionHandler(FlowException.class)

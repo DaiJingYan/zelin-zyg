@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 public class ManagerClientFallbackFactory implements FallbackFactory<ManagerClient> {
     @Override
     public ManagerClient create(Throwable throwable) {
-
         return () -> R.error("zyg-manager服务挂了【fallbackFactory】。。。");
     }
 }

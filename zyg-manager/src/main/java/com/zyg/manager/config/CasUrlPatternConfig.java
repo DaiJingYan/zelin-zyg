@@ -11,8 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
-@EnableCasClient
+// @Configuration
+// @EnableCasClient
 public class CasUrlPatternConfig {
 
    @Value("${cas.server-login-url}")

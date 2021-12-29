@@ -1,7 +1,9 @@
 package com.zyg.user.controller;
 
 import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.EntryType;
 import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.Tracer;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.zyg.common.utils.R;
 import com.zyg.user.exception.MyException;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 /**
  * ------------------------------
@@ -79,15 +83,41 @@ public class SentinelController {
     }
 
     int i = 0;
-    //降级--->异常比较
+    //降级--->异常比例
     @GetMapping("/sentinel/message3")
     @ResponseBody
     public String message3(){
-        i++;
-        if(i % 3 == 0){
-            throw new RuntimeException();
+        // i++;
+        // if(i % 3 == 0){
+        //     throw new MyException("异常比例失败。i = " + i);
+        //     //System.out.println(new Date().toLocaleString());
+        // }
+        Entry entry = null;
+        try {
+            i++;
+            if(i % 3 == 0){
+                throw new MyException("异常比例失败。i = " + i);
+            }
+            entry = SphU.entry("zl", EntryType.IN, i);
+
+            System.out.println("正在进行异常比例降级。。。");
+        } catch (Throwable t) {
+            if (!BlockException.isBlockException(t)) {
+                Tracer.trace(t);
+            }
+            System.out.println("exception:" + t.getMessage());
+        } finally {
+            if (entry != null) {
+                entry.exit();
+            }
         }
         return "message3";
     }
 
+    @GetMapping("/user/getMessage")
+    @ResponseBody
+    public R getMessage(){
+        String msg = sentinelService.getMessage();
+        return R.ok().put("msg",msg);
+    }
 }

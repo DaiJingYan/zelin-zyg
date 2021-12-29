@@ -11,4 +11,6 @@ public interface UserService {
     boolean isExistsCode(String validcode, String phone);
 
     void add(TbUser user);
+
+    TbUser findById(Long id);
 }
