@@ -149,6 +149,11 @@ public class TbUser {
     @TableField(value = "last_login_time")
     private Date lastLoginTime;
 
+    private String accessToken;
+    private String expiresIn;
+    private String uid;
+
+
     public static void main(String[] args) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encode = encoder.encode("123");

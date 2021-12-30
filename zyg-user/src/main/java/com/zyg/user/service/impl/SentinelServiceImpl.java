@@ -1,13 +1,15 @@
 package com.zyg.user.service.impl;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock;
+import com.aliyuncs.http.HttpUtil;
 import com.zyg.user.exception.MyException;
 import com.zyg.user.handler.MyBlockHandler;
 import com.zyg.user.handler.MyFallBackHandler;
 import com.zyg.user.service.SentinelService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cloud.netflix.ribbon.apache.HttpClientUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -52,6 +54,7 @@ public class SentinelServiceImpl implements SentinelService {
                      exceptionsToIgnore = MyException.class)
     public String getMessage() {
         int i = 10 / 0;
+
         return "getMessage";
     }
     /**

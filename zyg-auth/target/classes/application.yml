@@ -1,0 +1,31 @@
+server:
+  port: 8091
+spring:
+  application:
+    name: zyg-auth
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8088
+  redis:
+    host: 192.168.56.17
+  rabbitmq:
+    host: 192.168.56.17
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://192.168.56.17:3306/zyg_user?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: 123
+seata:
+  enabled: false
+feign:
+  sentinel:
+    enabled: true
+
+auth:
+  url: https://api.weibo.com/oauth2/access_token
+  client_id: 3621349439
+  client_secret: 6fc0fe2e7612a6f0c5a21270643a306b
+  grant_type: authorization_code
+  redirect_uri: http://auth.zeyigou.com/oauth2/weibo/success
+  userInfo_path: https://api.weibo.com/2/users/show.json

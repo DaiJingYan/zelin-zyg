@@ -27,6 +27,7 @@
         <module>zyg-gateway</module>
         <module>zyg-cart</module>
         <module>zyg-order</module>
+        <module>zyg-auth</module>
     </modules>
 
     <dependencyManagement>

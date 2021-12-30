@@ -52,7 +52,10 @@ spring:
           predicates:
           - Host=search.zeyigou.com  #(重要)
 
-
+        - id: zyg-auth
+          uri: lb://zyg-auth
+          predicates:
+            - Host=auth.zeyigou.com  #(重要)
 #          - Header=myId,1001
 #          - Method=GET,POST
 #          - Query=param,zelin
