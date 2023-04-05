@@ -7,40 +7,43 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="rabbitmq-producer" />
-        <module name="zyg-page" />
-        <module name="zyg-search" />
         <module name="zyg-common" />
-        <module name="renren-fast-manager" />
-        <module name="renren-fast-shop" />
-        <module name="cas-overlay" />
         <module name="zyg-auth" />
+        <module name="zyg-page" />
         <module name="canal-demo" />
-        <module name="zyg-cart" />
+        <module name="rabbitmq-producer" />
         <module name="zyg-gateway" />
-        <module name="renren-generator" />
-        <module name="zyg-order" />
-        <module name="zyg-shop" />
-        <module name="zyg-manager" />
         <module name="rabbitmq-consumer" />
         <module name="zyg-user" />
-        <module name="mybatisplus-demo" />
+        <module name="zyg-order" />
+        <module name="zyg-shop" />
+        <module name="zyg-cart" />
+        <module name="zyg-manager" />
+        <module name="zyg-search" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8">
-      <module name="junit5demo" target="1.8" />
+    <bytecodeTargetLevel>
+      <module name="canal-demo" target="1.8" />
+      <module name="rabbitmq-consumer" target="1.8" />
+      <module name="rabbitmq-producer" target="1.8" />
+      <module name="zyg-auth" target="1.8" />
+      <module name="zyg-cart" target="1.8" />
+      <module name="zyg-common" target="1.8" />
+      <module name="zyg-gateway" target="1.8" />
+      <module name="zyg-manager" target="1.8" />
+      <module name="zyg-ms-parent" target="1.8" />
+      <module name="zyg-order" target="1.8" />
+      <module name="zyg-page" target="1.8" />
+      <module name="zyg-search" target="1.8" />
+      <module name="zyg-shop" target="1.8" />
+      <module name="zyg-user" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="canal-demo" options="-parameters" />
-      <module name="junit5demo" options="-parameters" />
-      <module name="mybatisplus-demo" options="-parameters" />
       <module name="rabbitmq-consumer" options="-parameters" />
       <module name="rabbitmq-producer" options="-parameters" />
-      <module name="renren-fast-manager" options="-parameters" />
-      <module name="renren-fast-shop" options="-parameters" />
-      <module name="renren-generator" options="-parameters" />
       <module name="zyg-auth" options="-parameters" />
       <module name="zyg-cart" options="-parameters" />
       <module name="zyg-common" options="-parameters" />
